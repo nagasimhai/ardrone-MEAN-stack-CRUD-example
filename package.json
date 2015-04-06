@@ -1,0 +1,13 @@
+{
+  "name": "ARDrone-flightpath",
+  "version": "0.0.1",
+  "dependencies": {
+    "express": "~4.12.3",
+    "mongoose": "~3.8.25",
+    "body-parser": "~1.12.2",
+    "angular-ui-router": "~0.2.13",
+    "ar-drone": "~0.3.3",
+    "ps-node": "0.0.3",
+    "table-parser": "0.0.3"
+  }
+}

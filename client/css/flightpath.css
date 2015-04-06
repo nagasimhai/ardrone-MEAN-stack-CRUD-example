@@ -1,0 +1,42 @@
+/* app css stylesheet */
+
+body {
+  padding-top: 10px;
+}
+
+#main_win {
+	width: 800px;
+	height:240px; 
+}
+#flight {
+  width: 720px;
+  height:240px;
+  float: left;
+  overflow-y:auto;
+  overflow-x: hidden;
+  border : solid 1px
+}
+#basics {
+	width: 75px;
+	height:240px;
+	float: left;
+	border: solid 1px;
+	overflow:hidden
+}
+#fblrup {
+	width: 75px;
+	height: 75px;
+	float: left;
+	border: solid 1px;
+	overflow: hidden;
+}
+.no {
+   background-color: white;
+}
+.yes {
+   background-color: yellow;
+}
+
+h1 {
+  border-bottom: 1px solid gray;
+}

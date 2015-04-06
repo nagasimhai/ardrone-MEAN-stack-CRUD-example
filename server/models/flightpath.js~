@@ -1,0 +1,13 @@
+var mongoose = require("mongoose");
+
+module.exports = mongoose.model("Flightpath", {
+	pathName: String,
+	stepNumber: Number,
+	operName: String,
+	speed:		Number,
+	duration:	Number,
+	distance: Number,
+	pause: Number,
+	back: Number, 
+	teststr: String
+});

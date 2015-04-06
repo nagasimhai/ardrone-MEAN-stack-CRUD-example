@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html ng-app='flightpathApp'>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>Flightpaths</title>
+		<link rel="stylesheet" href="/css/flightpath.css">
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+	</head>
+	<body>
+		<div id="pathnamesMenu" ng-controller="pathnamesCtrl">
+      		<select ng-model="selectedPathname" ng-change="populateFlightpath()" >
+        			<option ng-repeat="pathname in Pathnames" value="{{pathname.name}}">{{pathname.name}}</option>
+        			<option value="">Select pathname</option>
+      		</select>
+      		<button title="Create new path sequence" ng-click="createPathname()"><img src="/images/edit_add.ico" style="width:15px;height:15px"></button>
+      		<button title="Set speed for manual options (Default:10)" ng-click="setManualSpeed()"><img src="/images/speed.jpeg" style="width:15px;height:15px"></button>
+
+		</div>
+		<br>
+		<!-- Flightpaths view -->
+		<div id="flightpathList" ng-controller="flightpathsCtrl">
+			<div id="main_win">
+				<div id="flight">
+					<li class="row" ng-repeat="flightpath in Flightpaths | orderBy:'stepNumber'">
+					<select ng-model="operation.name"  ng-change="changeInputSettings(flightpath,operation.name,$index)"
+							ng-options="operation.name group by operation.type for operation in Operations">
+							<option value="">{{flightpath.operName}}</option>
+					</select>
+					
+					For <input type="number" min="1" max="9999" size="4" style="width: 55px" placeholder={{flightpath.duration}}  ng-change="changeSavecolor(flightpath,$index)" ng-model="flightpath.duration"></input>
+					{{flightpath.durString}}, at <input type="number" ng-change="changeSavecolor(flightpath,$index)" min="0" max="90" style="width: 35px"  size="2" placeholder={{flightpath.speed}} ng-model="flightpath.speed"></input>
+					speed. <button title="Add step below" ng-click="addFlightpath(flightpath.stepNumber,$index)"> <img src="/images/add.png" style="width:15px;height:15px"></button>
+					<button ng-class="[flightpath.teststr]" title="Save step" ng-click="saveFlightpath(flightpath, operation.name)"><img src="/images/save.jpeg" style="width:15px;height:15px"></button>
+					<button ng-click="removeFlightpath(flightpath._id, $index)" title="delete step" ><img src="/images/trash.png" style="width:15px;height:15px"></button>
+					<button ng-click="flyFlightpath(flightpath)" title="Fly this step"><img src="/images/flyone.jpeg" style="width:15px;height:15px"></button>
+					</li>
+				</div>
+				<div id="basics">
+					<button title="Takeoff drone" ng-click="basicCmd('client.takeoff()')"><img src="/images/takeoff.jpeg" style="width:50px;height:25px"></button>
+					<button title="Land drone" ng-click="basicCmd('client.disableEmergency();client.land()')" ><img src="/images/land.jpeg" style="width:50px;height:25px"></button>
+					<button title="Hover drone in place" ng-click="basicCmd('client.stop()')" ><img src="/images/stop.png" style="width:50px;height:35px"></button>
+					<div id="fblrup">
+						<button title="Forward" ng-click="moveCmd('client.front(')"><img src="/images/up.png" style="width:10px; height:10px;"></button>
+						<button title="Backward" ng-click="moveCmd('client.back(')"><img src="/images/down.png" style="width:10px; height:10px;"></button>
+						<button title="Left" ng-click="moveCmd('client.left(')"><img src="/images/left.png" style="width:10px; height:10px;"></button>
+						<button title="Right" ng-click="moveCmd('client.right(')"><img src="/images/right.png" style="width:10px; height:10px;"></button>
+						<button title="Up" ng-click="moveCmd('client.up(')"><img src="/images/up.jpeg" style="width:10px; height:12px;"></button>
+						<button title="Down" ng-click="moveCmd('client.down(')"><img src="/images/down.jpeg" style="width:10px; height:12px;"></button>
+					</div>
+					<button title="Fly all in sequence" ng-click="flyDrone()"><img src="/images/flyall.jpeg" style="width:50px;height:35px"></button>
+				</div>
+				<br style="clear: left;" />
+			</div>
+		</div>
+		<br>
+		<div id="nodevideo" style="width:640px; height:360px;border:1px solid black"></div>
+		<script src="public/nodecopter-client.js"></script>
+    	<script>
+        new NodecopterStream(document.getElementById("nodevideo"), {hostname:'localhost',port: 3001});
+    	</script>
+
+		<!--<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular-resource.js"></script>-->
+		<script src="/public/angular.min.js"></script>
+		<script src="/public/angular-resource.js"></script>
+	    <script type="text/javascript" src="/js/app.js"></script>
+    	<script type="text/javascript" src="/js/controllers/flightpaths-ctrl.js"></script>
+    	<script type="text/javascript" src="/js/controllers/pathnames-ctrl.js"></script>
+	</body>
+</html>
